@@ -34,9 +34,11 @@ export async function execute(interaction: CommandInteraction) {
         new MessageButton()
             .setLabel('Invite Borealis to your server!')
             .setStyle('LINK')
-            .setURL(
-                'https://discord.com/api/oauth2/authorize?client_id=955496551768277043&permissions=2147510278&scope=applications.commands%20bot'
-            )
+            .setURL('https://discord.com/api/oauth2/authorize?client_id=955496551768277043&permissions=2147510278&scope=applications.commands%20bot'),
+        new MessageButton()
+            .setLabel('Borealis source code on GitHub')
+            .setStyle('LINK')
+            .setURL('https://github.com/BorealisDiscord/main')  
     );
     await interaction.reply({ embeds: [embed], components: [buttons] });
 }

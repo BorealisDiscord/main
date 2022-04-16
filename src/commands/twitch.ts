@@ -15,9 +15,9 @@ export default {
 
         const embed = new MessageEmbed()
         .setAuthor(`${data.name} Twitch channel`, data.avatar)
-        .addField(`Views`, data.views, true)
-        .addField(`Followers`, data.followers, true)
-        .addField(`User ID`, data.id, true)
+        .addField(`Views`, `h ${data.views}`, true)
+        .addField(`Followers`, `h ${data.followers}`, true)
+        .addField(`User ID`, `h ${data.id}`, true)
         .setColor("PURPLE")
         .setFooter("Powered by Borealis & Statify API")
         .setTimestamp();
