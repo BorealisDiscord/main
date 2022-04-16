@@ -16,3 +16,9 @@ Typescript uses:
 import "module" from "package";
 ```
 However, most of the JavaScript syntax remain in TypeScript "as is", so to use TypeScript you need to know JS basics (and know how to use typings properly - more on TypeScript docs). That's all!
+
+# To-do list
+- complete /config slash subcommand events (`messageDelete.ts`, `guildMemberAdd.ts`, `guildMemberRemove.ts`)
+
+# Questions, suggestions or found any bugs?
+Post them on GitHub Issue Tracker (`Issues` tab).
