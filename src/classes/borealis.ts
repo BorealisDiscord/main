@@ -1,56 +1,37 @@
-import "dotenv/config";
-import fs from "fs";
-import { REST } from "@discordjs/rest"
-import { Routes } from "discord-api-types/v9"
-import {Client, Intents, Collection} from "discord.js";
+import { readdirSync } from 'fs';
+import { Client, Intents, Collection } from 'discord.js';
 
-const eventFiles = fs.readdirSync(`${__dirname}/../events`).filter(file => file.endsWith(".js"));
-const commandFiles = fs.readdirSync(`${__dirname}/../commands`).filter(file => file.endsWith(".js"));
+const eventFiles = readdirSync(`${__dirname}/../events`);
+const commandFiles = readdirSync(`${__dirname}/../commands`);
 
 export default class Borealis extends Client {
-	commands: Collection<string, any>
-	constructor() {
-        super({intents: [Intents.FLAGS.GUILDS]})
-        
+    commands: Collection<string, any>;
+    constructor() {
+        super({ intents: [Intents.FLAGS.GUILDS] });
+
         this.commands = new Collection();
         this.handleEvents(`${__dirname}/../events`);
         this.handleCommands(`${__dirname}/../commands`);
-        // @ts-ignore
-        this.login(process.env.BOTTOKEN); 
-	}
-	handleEvents(subdir: string) {
+        // the token is automatically loaded from process.env.DISCORD_TOKEN
+        this.login();
+    }
+    handleEvents(subdir: string) {
         eventFiles.forEach(async file => {
             const event = await import(`${subdir}/${file}`);
-            if (event.default?.name) { 
-                this.on(event.default.name, (...args) => event.default.execute(...args, this));
-                console.log(`✅ [EVENT LOG] | Event ${event.default.name} successfully loaded!`);
-            } else {
-                console.warn(`❌ [EVENT LOG] | Event ${file} failed to load!`);
-            }
+            const name = file.split('.')[0];
+            this.on(name, (...args) => event.execute(...args, this));
+            console.log(`✅ [EVENT LOG] | Event ${name} successfully loaded!`);
         });
-	}
-	handleCommands(subdir: string) {
+    }
+    handleCommands(subdir: string) {
         commandFiles.forEach(async file => {
             const command = await import(`${subdir}/${file}`);
-            if (command.default?.data) {
-                this.commands.set(command.default.data.name, command);
-                console.log(`✅ [COMMAND LOG] | Command ${command.default.data.name} successfully loaded!`);
+            if (command.data) {
+                this.commands.set(command.data.name, command);
+                console.log(`✅ [COMMAND LOG] | Command ${command.data.name} successfully loaded!`);
             } else {
                 console.warn(`❌ [COMMAND LOG] | Command ${file} failed to load! Perhaps it is missing a data object?`);
             }
         });
-        const rest = new REST({version: '9'}).setToken(process.env.BOTTOKEN);
-
-        (async () => {
-            try {
-                console.log('Started refreshing slash commands.');
-                await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-                    body: this.commands
-                });
-                console.log('Successfully reloaded slash commands!')
-            } catch(err) {
-                console.error(err);
-            }
-        })
-	}
+    }
 }
