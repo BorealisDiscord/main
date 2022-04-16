@@ -11,7 +11,7 @@ export default {
         const username = interaction.options.getString("channel");
         const res = await fetch(`https://api.statify.live/twitch/${username}`);
 
-        const data: {name: string, avatar: string, views: number, followers: number, code: number, id: number} = (await res.json()) as any;
+        const data: {name: string, avatar: string, views: any, followers: any, id: any, code: number} = (await res.json()) as any;
 
         const embed = new MessageEmbed()
         .setAuthor(`${data.name} Twitch channel`, data.avatar)
