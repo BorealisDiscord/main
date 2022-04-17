@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import Embed from 'classes/Embed';
+import Embed from '../classes/Embed';
 import { CommandInteraction, GuildMember, MessageEmbed } from 'discord.js';
 
 export const data = new SlashCommandBuilder()
