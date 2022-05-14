@@ -1,3 +1,6 @@
+# IMPORTANT!
+Mainline development has ceased due to the lack of interest & time to supply Borealis with new functions. Fork the repository if you want to continue developing - you don't have to ask me for a consent to do so.
+
 # What's this?
 This is the source code of Borealis bot, currently private but main instance will be public soon. You can selfhost it, you can even extend bot's existing functions by new ones - but remember that the changes you've made should be open-source, too. This is how open-source works, right?
 
